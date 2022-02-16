@@ -2,8 +2,12 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
-  console.log(process.env);
-  console.log(process.env.REACT_APP_FAUNA_KEY);
+  fetch('https://cat-fact.herokuapp.com/facts/123')
+  .then(response => {
+    console.log(response)
+    return response.json()
+  })
+  .then(data => console.log(data));
   return (
     <div className="App">
       <header className="App-header">
