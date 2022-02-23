@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import {useState} from 'react';
+import { createArticle } from './api';
 import './App.css';
 function App() {
   const [fetched, setFetch] = useState('');
@@ -8,9 +9,8 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <button onClick={async () => {
-          const response = await fetch('/.netlify/functions/createArticle')
-          .then(response => response.json())
-
+          const response = await createArticle({testing: 123, isAmazing: true})
+    
           setFetch(JSON.stringify(response));
         }}>Create</button>
         <p>

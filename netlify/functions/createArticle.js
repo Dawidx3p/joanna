@@ -3,15 +3,16 @@ const faunadb = require('faunadb')
 const q = faunadb.query
 
 exports.handler = (event, context) => {
-  console.log('creating test data')
+  console.log('creating article')
   /* configure faunaDB Client with our secret */
   const client = new faunadb.Client({
     secret: process.env.REACT_APP_FAUNADB_ADMIN_SECRET
   }) 
+  const data = JSON.parse(event.body)
   return client.query(
     q.Create(
       q.Collection('articles'),
-      { data: { testField: 'testValue' } }
+      { data }
     )
   )
   .then(response => {
