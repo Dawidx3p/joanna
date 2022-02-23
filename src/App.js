@@ -1,13 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
-
 function App() {
-  fetch('https://cat-fact.herokuapp.com/facts/123')
-  .then(response => {
-    console.log(response)
-    return response.json()
-  })
-  .then(data => console.log(data));
+  console.log(process.env)
   return (
     <div className="App">
       <header className="App-header">
