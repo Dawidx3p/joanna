@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import {useState} from 'react';
-import { createArticle } from './api';
+import { createArticle, deleteArticle, getAllArticles, updateArticle } from './api';
 import './App.css';
 function App() {
   const [fetched, setFetch] = useState('');
@@ -13,6 +13,21 @@ function App() {
     
           setFetch(JSON.stringify(response));
         }}>Create</button>
+        <button onClick={async () => {
+          const response = await getAllArticles()
+    
+          setFetch(JSON.stringify(response));
+        }}>getAll</button>
+        <button onClick={async () => {
+          const response = await updateArticle('324419323509604944', {updated: true})
+    
+          setFetch(JSON.stringify(response));
+        }}>update first</button>
+        <button onClick={async () => {
+          const response = await deleteArticle('324419323509604944')
+    
+          setFetch(JSON.stringify(response));
+        }}>delete first</button>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
