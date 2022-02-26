@@ -1,13 +1,33 @@
-import logo from './logo.svg';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import { createArticle, deleteArticle, getAllArticles, updateArticle } from './api';
+import { moveUp, moveDown } from './utils';
 import './App.css';
+
+import Article from './Article';
+import NewArticle from './components/NewArticle';
+
 function App() {
-  const [fetched, setFetch] = useState('');
+  console.log('up',moveUp([1,2,3,4,5], 0))
+  console.log('down',moveDown([1,2,3,4,5], 0))
+  const [articles, setArticles] = useState([]);
+  useEffect(() => {
+    getAllArticles()
+    .then(response => setArticles(response))
+  },[])
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        {articles.map((article, key) => <Article key={key} article={article} />)}
+        <NewArticle />
+      </header>
+    </div>
+  );
+}
+
+export default App;
+
+
+/*
         <button onClick={async () => {
           const response = await createArticle({testing: 123, isAmazing: true})
     
@@ -28,21 +48,4 @@ function App() {
     
           setFetch(JSON.stringify(response));
         }}>delete first</button>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>{fetched}</p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-
-export default App;
+        */
