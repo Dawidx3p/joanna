@@ -5,15 +5,15 @@ export default function AddList({changeContent, content}){
         changeContent([''])
     },[changeContent])
     return(
-    <ul>
+    <ul className="article-form-list">
         {typeof(content)==='object' && content.map((li, key) => {
             return(
                 <li key={key}>
                     <input type='text' value={li} onChange={(e) => changeContent(content.map((item, key2) => key===key2 ? e.target.value : item))}/>
-                    <button onClick={(e) => {
+                    <button className="button standard" onClick={(e) => {
                         e.preventDefault();
                         changeContent([...content, ''])}}>Dodaj kolejny</button>
-                    <button onClick={(e) => {
+                    <button className="button standard" onClick={(e) => {
                         e.preventDefault();
                         changeContent(content.filter((item, key2) => key2!==key))}}>Usuń</button>
                 </li>

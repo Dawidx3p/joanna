@@ -1,9 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Article({article}){
-    console.log(article);
     return (
-        <div>
+        <article>
             {article.data && article.data.article.map((part, key) => {
                 switch(part.type){
                     case 'h1':
@@ -24,7 +24,7 @@ export default function Article({article}){
                         return null;
                 }
             })}
-            {article.ref && <button onClick={() => console.log('edytuje')}>Edytuj Artykuł</button>}
-        </div>
+            {article.ref && <Link className="button primary" to={`/edit/${article.ref['@ref'].id}`}>Edytuj Artykuł</Link>}
+        </article>
     )
 }

@@ -1,9 +1,9 @@
 import React from "react";
 import { moveDown, moveUp } from "../utils";
 
-export default function Article({article, changeCurrent}){
+export default function EditedArticle({article, changeCurrent}){
     return (
-        <div>
+        <article>
             {article.data && article.data.article.map((part, key) => {
                 switch(part.type){
                     case 'h1':
@@ -73,6 +73,6 @@ export default function Article({article, changeCurrent}){
                         return null;
                 }
             })}
-        </div>
+        </article>
     )
 }

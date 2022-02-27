@@ -1,27 +1,35 @@
-import React, { useCallback, useState } from "react";
-
-import { createArticle } from "../api";
+import React, { useCallback, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { deleteArticle, updateArticle } from "../api";
 import { useAlert } from "../customHooks";
-
 import AddList from "./AddList";
 import EdditedArticle from "./EditedArticle";
 import Navigation from "./Navigation";
 
-export default function NewArticle({addArticle}){
+export default function EditArticle({updateArticles, articles, deleteArticleR}){
+    let params = useParams();
+
+    const article = articles.find(article => article.ref['@ref'].id===params.id);
+
+    const [alert, setAlert] = useAlert('');
     const [type, setType] = useState('');
     const [content, setContent] = useState('');
     const [current, setCurrent] = useState([]);
     const [img, setImg] = useState('');
     const [title, setTitle] = useState('');
 
-    const [alert, setAlert] = useAlert('');
+    useEffect(() => {
+        setCurrent(article ? article.data.article : []);
+        setImg(article ? article.data.img : '');
+        setTitle(article ? article.data.title : '');
+    },[articles, article])
 
     const changeContent = useCallback((content) => {
         setContent(content)
     },[])
 
     return(
-        <div>
+        <>
             <Navigation />
             <main>
             {alert && <div className="alert">{alert}</div>}
@@ -32,7 +40,7 @@ export default function NewArticle({addArticle}){
                 }else if(type){
                     setAlert('za krótki tekst minimum 6 znaków');
                 }else{
-                    setAlert('Wybierz rodzaj elementu')
+                    setAlert('Wybierz rodzaj elementu');
                 }
             }}>
                 <select value={type} onChange={(e) => {
@@ -54,12 +62,9 @@ export default function NewArticle({addArticle}){
                 <input className="button primary" type='submit' value='Opublikuj' onClick={e => {
                     e.preventDefault();
                     if(current.length>0 && img && title){
-                        createArticle({article: current, img, title}).then((article) => {
-                            setAlert('Pomyślnie stworzono Artykuł');
-                            addArticle(article);
-                            setCurrent([]);
-                            setImg('');
-                            setTitle('');
+                        updateArticle(params.id, {article: current, img, title}).then((article) => {
+                            setAlert('Pomyślnie zaktualizowano Artykuł');
+                            updateArticles(article, params.id);
                         })
                     }else if(!img){
                         setAlert('Nie ma podanego linku do zdjęcia');
@@ -68,11 +73,18 @@ export default function NewArticle({addArticle}){
                     }else{
                         setAlert('Nie dodałaś elementów');
                     }
-                    
                 }}/>
             </form>
             <EdditedArticle article={{data: {article: current}}} changeCurrent={(article) => setCurrent(article)}/>
+            <button className="warning button" onClick={() => {
+                const result = window.confirm('Jesteś pewna że chcesz usunąć cały Artykuł?');
+                if(result){
+                    deleteArticle(params.id);
+                    deleteArticleR(params.id);
+                    setAlert('Pomyślnie usunięto artykuł');
+                }
+            }}>Usuń Cały artykuł</button>
             </main>
-        </div>
+        </>
     )
 }

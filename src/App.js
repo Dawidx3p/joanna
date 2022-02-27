@@ -1,26 +1,49 @@
 import {useEffect, useState} from 'react';
 import { getAllArticles } from './api';
-import { moveUp, moveDown } from './utils';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Article from './Article';
 import NewArticle from './components/NewArticle';
+import Articles from './components/Articles';
+import EditArticle from './components/EditArticle';
+
+import './App.css';
+import Auth from './components/Auth';
 
 function App() {
-  console.log('up',moveUp([1,2,3,4,5], 0))
-  console.log('down',moveDown([1,2,3,4,5], 0))
   const [articles, setArticles] = useState([]);
+  const [isAuthenticated, setAuth] = useState(false);
+
+  const addArticle = (article) => setArticles(prev => [...prev, article])
+
+  const updateArticles = ( article, id ) => setArticles(prev => prev.map(prevArticle => {
+    if(prevArticle.ref['@ref'].id===id){
+      return article
+    }else{
+      return prevArticle
+    }
+    
+  }))
+
+  const deleteArticle = (id) => setArticles(prev => {
+    return prev.filter(article => article.ref['@ref'].id!==id)
+  })
+
   useEffect(() => {
     getAllArticles()
     .then(response => setArticles(response))
   },[])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        {articles.map((article, key) => <Article key={key} article={article} />)}
-        <NewArticle />
-      </header>
-    </div>
+    <>
+      {isAuthenticated ? <div className="App">
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<Articles articles={articles}/>}/>
+            <Route path='/add_article' element={<NewArticle addArticle={addArticle}/>}/>
+            <Route path='/edit/:id' element={<EditArticle updateArticles={updateArticles} deleteArticleR={deleteArticle} articles={articles}/>}/>
+          </Routes>
+        </BrowserRouter></div> : <Auth setAuth={(bool) => setAuth(bool)}/>}
+    </>
   );
 }
 
