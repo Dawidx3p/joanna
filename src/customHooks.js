@@ -3,9 +3,10 @@ import { useEffect, useState } from "react"
 export function useAlert(text){
     const [alert, setAlert] = useState(text);
     useEffect(() => {
-        setTimeout(() => {
+        const timeoutId = setTimeout(() => {
             setAlert('')
-        }, 3000)
+        }, 3000);
+        return () => clearTimeout(timeoutId);
     },[alert])
     return [alert, setAlert]
 }

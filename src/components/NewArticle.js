@@ -13,6 +13,7 @@ export default function NewArticle({addArticle}){
     const [current, setCurrent] = useState([]);
     const [img, setImg] = useState('');
     const [title, setTitle] = useState('');
+    const [description, setDescritpion] = useState('');
 
     const [alert, setAlert] = useAlert('');
 
@@ -49,12 +50,13 @@ export default function NewArticle({addArticle}){
                 {type!=='list' && <textarea placeholder="Zawartość..." name="content" value={content} onChange={(e) => setContent(e.target.value)}></textarea>}
                 {type==='list' && <AddList content={content} changeContent={changeContent}/>}
                 <input type='text' value={title} onChange={(e) => setTitle(e.target.value)} placeholder='Tytuł bloga'></input>
+                <input type='text' value={description} onChange={(e) => setDescritpion(e.target.value)} placeholder='Krótki opis'></input>
                 <input type='text' value={img} onChange={(e) => setImg(e.target.value)} placeholder='link do obrazka'></input>
                 <input className="button standard" type='submit' value='Dodaj element' />
                 <input className="button primary" type='submit' value='Opublikuj' onClick={e => {
                     e.preventDefault();
-                    if(current.length>0 && img && title){
-                        createArticle({article: current, img, title}).then((article) => {
+                    if(current.length>0 && img && title && description){
+                        createArticle({article: current, img, title, description, date: new Date()}).then((article) => {
                             setAlert('Pomyślnie stworzono Artykuł');
                             addArticle(article);
                             setCurrent([]);
@@ -65,8 +67,10 @@ export default function NewArticle({addArticle}){
                         setAlert('Nie ma podanego linku do zdjęcia');
                     }else if(!title){
                         setAlert('Nie ma tytułu');
+                    }else if(!description){
+                        setAlert('Nie ma opisu');
                     }else{
-                        setAlert('Nie dodałaś elementów');
+                        setAlert('Nie dodałaś żadnych elementów do Artykułu');
                     }
                     
                 }}/>

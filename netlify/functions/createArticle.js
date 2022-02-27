@@ -12,7 +12,7 @@ exports.handler = (event, context) => {
   return client.query(
     q.Create(
       q.Collection('articles'),
-      { data: {article: data.article, img: data.img, title: data.title} }
+      { data: {article: data.article, img: data.img, title: data.title, description: data.description, date: data.date} }
     )
   )
   .then(response => {
