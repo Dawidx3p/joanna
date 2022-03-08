@@ -56,9 +56,15 @@ export default function EditArticle({updateArticles, articles, deleteArticleR}){
                     <option value='list'>Lista</option>
                     <option value='img'>Obraz</option>
                 </select>
-                {type!=='list' && <textarea placeholder="Zawartość..." name="content" value={content} onChange={(e) => setContent(e.target.value)}></textarea>}
+                {type!=='list' && <textarea placeholder="Zawartość..." name="content" value={content} onChange={(e) => {
+                    if(type==='h1'){
+                        setContent(e.target.value.toUpperCase());
+                    }else{
+                        setContent(e.target.value);
+                    }
+                }}></textarea>}
                 {type==='list' && <AddList content={content} changeContent={changeContent}/>}
-                <input type='text' value={title} onChange={(e) => setTitle(e.target.value)} placeholder='Tytuł bloga'></input>
+                <input type='text' value={title} onChange={(e) => setTitle(e.target.value.toUpperCase())} placeholder='Tytuł bloga'></input>
                 <input type='text' value={description} onChange={(e) => setDescritpion(e.target.value)} placeholder='Krótki opis'></input>
                 <input type='text' value={img} onChange={(e) => setImg(e.target.value)} placeholder='link do obrazka'></input>
                 <input className="button standard" type='submit' value='Dodaj element' />
