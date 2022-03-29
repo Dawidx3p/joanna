@@ -9,7 +9,7 @@ export default function Short({article}){
                     <h3>{article.data.title}</h3>
                     <p>{article.data.description}</p>
                 </section>
-                <img src={article.data.img} alt={`blog article ${article.data.title}`} />
+                <img src={`https://joanneart.netlify.app/${article.data.img.slice(3)}`} alt={`blog article ${article.data.title}`} />
                 <nav><Link to={`/article/${article.ref['@ref'].id}`}>Edytuj Artykuł</Link></nav>
             </div>
         
