@@ -18,12 +18,14 @@ export default function EditArticle({updateArticles, articles, deleteArticleR}){
     const [img, setImg] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescritpion] = useState('');
+    const [article_type, setArticleType] = useState('');
 
     useEffect(() => {
         setCurrent(article ? article.data.article : []);
         setImg(article ? article.data.img : '');
         setTitle(article ? article.data.title : '');
         setDescritpion(article ? article.data.description : '');
+        setArticleType(article ? article.data.article_type : '');
     },[articles, article])
 
     const changeContent = useCallback((content) => {
@@ -37,7 +39,7 @@ export default function EditArticle({updateArticles, articles, deleteArticleR}){
             {alert && <div className="alert">{alert}</div>}
             <form className="article-form" onSubmit={e => {
                 e.preventDefault();
-                if(type && (content.length >= 6 || (type==='list' && content.length > 0))){
+                if(type && (content.length >= 6 || ((type==='list' || type==='slider') && content.length > 0))){
                     setCurrent(prev => [...prev, {type, content}])
                 }else if(type){
                     setAlert('za krótki tekst minimum 6 znaków');
@@ -55,23 +57,35 @@ export default function EditArticle({updateArticles, articles, deleteArticleR}){
                     <option value='p'>Paragraf</option>
                     <option value='list'>Lista</option>
                     <option value='img'>Obraz</option>
+                    <option value='slider'>Slider</option>
+                    <option value='grid'>Grid</option>
                 </select>
-                {type!=='list' && <textarea placeholder="Zawartość..." name="content" value={content} onChange={(e) => {
+                {(type!=='list' && type!=='slider' && type!=='grid') && <textarea placeholder="Zawartość..." rows="7" cols="40" name="content" value={content} onChange={(e) => {
                     if(type==='h1'){
                         setContent(e.target.value.toUpperCase());
                     }else{
                         setContent(e.target.value);
                     }
                 }}></textarea>}
-                {type==='list' && <AddList content={content} changeContent={changeContent}/>}
+                {(type==='list' || type==='slider' || type==='grid') && <AddList content={content} changeContent={changeContent}/>}
                 <input type='text' value={title} onChange={(e) => setTitle(e.target.value.toUpperCase())} placeholder='Tytuł bloga'></input>
                 <input type='text' value={description} onChange={(e) => setDescritpion(e.target.value)} placeholder='Krótki opis'></input>
                 <input type='text' value={img} onChange={(e) => setImg(e.target.value)} placeholder='link do obrazka'></input>
+                <select value={article_type} onChange={(e) => setArticleType(e.target.value)}>
+                    <option value={''}>Wybierz tematykę</option>
+                    <option value='Fotografia Artystyczna'>Fotografia Artystyczna</option>
+                    <option value='Sesje Zdjęciowe'>Sesje Zdjęciowe</option>
+                    <option value='Reportaże'>Reportaże</option>
+                    <option value='Obrazy'>Obrazy</option>
+                    <option value='Murale'>Murale</option>
+                    <option value='Anioły'>Anioły</option>
+                    <option value='Blog'>Blog</option>
+                </select>
                 <input className="button standard" type='submit' value='Dodaj element' />
                 <input className="button primary" type='submit' value='Opublikuj' onClick={e => {
                     e.preventDefault();
-                    if(current.length>0 && img && title && description){
-                        updateArticle(params.id, {article: current, img, title, description}).then((article) => {
+                    if(current.length>0 && img && title && description && article_type){
+                        updateArticle(params.id, {article: current, img, article_type, title, description}).then((article) => {
                             setAlert('Pomyślnie zaktualizowano Artykuł');
                             updateArticles(article, params.id);
                         })

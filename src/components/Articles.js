@@ -1,6 +1,6 @@
 import React from "react";
 
-import Article from './Article';
+import Short from './Short/Short';
 import Navigation from "./Navigation";
 
 export default function Articles({articles}){
@@ -8,7 +8,7 @@ export default function Articles({articles}){
         <>
             <Navigation />
             <main>  
-                {articles.map((article, key) => <Article key={key} article={article} />)}
+                {articles.map((article, key) => <Short key={key} article={article} />)}
             </main>
         </>
     )

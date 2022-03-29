@@ -6,7 +6,9 @@ import NewArticle from './components/NewArticle';
 import Articles from './components/Articles';
 import EditArticle from './components/EditArticle';
 
-import './App.css';
+import './MyTemplate.scss';
+import './App.scss';
+
 import Auth from './components/Auth';
 
 function App() {
@@ -30,7 +32,7 @@ function App() {
 
   useEffect(() => {
     getAllArticles()
-    .then(response => setArticles(response))
+    .then(response => setArticles([...response].reverse()))
   },[])
 
   return (
@@ -40,7 +42,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Articles articles={articles}/>}/>
             <Route path='/add_article' element={<NewArticle addArticle={addArticle}/>}/>
-            <Route path='/edit/:id' element={<EditArticle updateArticles={updateArticles} deleteArticleR={deleteArticle} articles={articles}/>}/>
+            <Route path='/article/:id' element={<EditArticle updateArticles={updateArticles} deleteArticleR={deleteArticle} articles={articles}/>}/>
           </Routes>
         </BrowserRouter></div> : <Auth setAuth={(bool) => setAuth(bool)}/>}
     </>

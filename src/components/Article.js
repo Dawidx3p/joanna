@@ -1,6 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import Slider from './Slider/Slider';
+import Grid from './Grid/Grid';
+
 export default function Article({article}){
     return (
         <article>
@@ -18,8 +21,12 @@ export default function Article({article}){
                         return <p key={key}>{part.content}</p>;
                     case 'list':
                         return <ul key={key}>{part.content.map((item, key) => <li key={key}>{item}</li>)}</ul>;
+                    case 'slider':
+                        return <Slider key={key} imgs={part.content}/>;
+                    case 'grid':
+                        return <Grid key={key} photos={part.content}/>;
                     case 'img':
-                        return <img src={part.content} alt='for the blog article'  key={key}/>;
+                        return <img src={`https://joanneart.netlify.app/${part.content.slice(3)}`} alt='for the blog article'  key={key}/>;
                     default:
                         return null;
                 }
