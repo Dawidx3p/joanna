@@ -70,7 +70,8 @@ export default function EditArticle({updateArticles, articles, deleteArticleR}){
                 {(type==='list' || type==='slider' || type==='grid') && <AddList content={content} changeContent={changeContent}/>}
                 <input type='text' value={title} onChange={(e) => setTitle(e.target.value.toUpperCase())} placeholder='Tytuł bloga'></input>
                 <input type='text' value={description} onChange={(e) => setDescritpion(e.target.value)} placeholder='Krótki opis'></input>
-                <input type='text' value={img} onChange={(e) => setImg(e.target.value)} placeholder='link do obrazka'></input>
+                <label htmlFor="link">Zdjęcie ma mieć ścieżkę "../imgs/nazwa_folderu_ze_zdjeciami/nazwa_zdjecia.jpg"</label>
+                <input name='link' type='text' value={img} onChange={(e) => setImg(e.target.value)} placeholder='link do obrazka'></input>
                 <select value={article_type} onChange={(e) => setArticleType(e.target.value)}>
                     <option value={''}>Wybierz tematykę</option>
                     <option value='Fotografia Artystyczna'>Fotografia Artystyczna</option>
@@ -95,6 +96,8 @@ export default function EditArticle({updateArticles, articles, deleteArticleR}){
                         setAlert('Nie ma tytułu');
                     }else if(!description){
                         setAlert('Nie ma opisu');
+                    }else if(!article_type){
+                        setAlert('Nie ma podanej tematyki');
                     }else{
                         setAlert('Nie dodałaś elementów');
                     }
