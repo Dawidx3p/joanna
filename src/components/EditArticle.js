@@ -60,7 +60,7 @@ export default function EditArticle({updateArticles, articles, deleteArticleR}){
                     <option value='slider'>Slider</option>
                     <option value='grid'>Grid</option>
                 </select>
-                {(type!=='list' && type!=='slider' && type!=='grid') && <textarea placeholder="Zawartość..." rows="7" cols="40" name="content" value={content} onChange={(e) => {
+                {(type!=='list' && type!=='slider' && type!=='grid') && <textarea placeholder="Zawartość..." rows="7" name="content" value={content} onChange={(e) => {
                     if(type==='h1'){
                         setContent(e.target.value.toUpperCase());
                     }else{
@@ -70,7 +70,7 @@ export default function EditArticle({updateArticles, articles, deleteArticleR}){
                 {(type==='list' || type==='slider' || type==='grid') && <AddList content={content} changeContent={changeContent}/>}
                 <input type='text' value={title} onChange={(e) => setTitle(e.target.value.toUpperCase())} placeholder='Tytuł bloga'></input>
                 <input type='text' value={description} onChange={(e) => setDescritpion(e.target.value)} placeholder='Krótki opis'></input>
-                <label htmlFor="link">Zdjęcie ma mieć ścieżkę "../imgs/nazwa_folderu_ze_zdjeciami/nazwa_zdjecia.jpg"</label>
+                <label htmlFor="link">Zdjęcie ma mieć ścieżkę "../imgs/folder/nazwa_zdj.jpg"</label>
                 <input name='link' type='text' value={img} onChange={(e) => setImg(e.target.value)} placeholder='link do obrazka'></input>
                 <select value={article_type} onChange={(e) => setArticleType(e.target.value)}>
                     <option value={''}>Wybierz tematykę</option>

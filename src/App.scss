@@ -31,3 +31,10 @@ button{
         filter:none;
     }
 }
+
+
+@media only screen and (max-width: t.$max-width-screen) {
+    .articles{
+        grid-template-columns: 1fr;
+    }
+}
