@@ -7,7 +7,7 @@ export default function Articles({articles}){
     return(
         <>
             <Navigation />
-            <main>  
+            <main className="articles">  
                 {articles.map((article, key) => <Short key={key} article={article} />)}
             </main>
         </>

@@ -1,3 +1,6 @@
+@use './MyTemplate.scss' as t;
+
+
 main{
     grid-template-columns: 1fr;
 }
@@ -13,4 +16,18 @@ button{
     justify-content: center;
     justify-items: center;
     width: 100%;
+}
+
+.articles{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    align-items: center;
+    text-shadow: t.$text-shadow;
+    h3{
+        font-size: 1.5rem;
+        line-height: 1.8rem;
+    }
+    a:hover{
+        filter:none;
+    }
 }
